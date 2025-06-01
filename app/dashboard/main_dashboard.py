@@ -499,7 +499,7 @@ def display_greeks_charts_tab():
 
 
 # --- Main App Flow ---
-st.title("📈 Black-Scholes Pro Option Dashboard")
+st.title("📈 Black-Scholes Option Dashboard")
 
 if st.session_state.api_error_message:
     st.error(st.session_state.api_error_message)  # Hiển thị lỗi API một cách nổi bật
