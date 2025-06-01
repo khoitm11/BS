@@ -1,0 +1,21 @@
+[tool.ruff]
+line-length = 99
+select = ["E", "F", "W", "C90", "I"]
+ignore = ["E501"]
+
+exclude = [
+    ".venv",
+    "venv",
+    ".git",
+    "__pycache__",
+    "mlruns",
+    "build",
+    "dist",
+    "*.egg-info",
+    "generate_test_benchmarks.py",
+]
+
+[tool.ruff.lint]
+[tool.ruff.lint.per-file-ignores]
+"notebooks/*" = ["F401", "F841"]
+"tests/*" = ["F841"]
