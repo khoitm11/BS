@@ -1,5 +1,6 @@
 import numpy as np
-from core.gbm_simulator import simulate_gbm_paths, get_terminal_prices
+
+from core.gbm_simulator import get_terminal_prices, simulate_gbm_paths
 
 
 def test_simulate_gbm_paths_dimensions_and_initial_value():

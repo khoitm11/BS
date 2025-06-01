@@ -1,6 +1,7 @@
 # app/api/models_api.py
-from pydantic import BaseModel, Field
 from typing import Literal, Optional  # Optional dùng cho các trường có thể là None
+
+from pydantic import BaseModel, Field
 
 
 class OptionParamsBase(BaseModel):

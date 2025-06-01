@@ -1,7 +1,8 @@
-import sys
 import os
+import sys
+
 import numpy as np
-from fastapi import FastAPI, HTTPException, Query, Path
+from fastapi import FastAPI, HTTPException, Path, Query
 
 # --- BEGIN SYS.PATH MODIFICATION ---
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
@@ -12,17 +13,17 @@ if project_root_dir not in sys.path:
 
 # Import các Pydantic model và các hàm tính toán SAU KHI sys.path đã được sửa
 from app.api.models_api import (
-    OptionPriceRequest,
-    OptionPriceResponse,
+    MarketDataResponse,
     OptionGreeksRequest,
     OptionGreeksResponse,
-    MarketDataResponse,
+    OptionPriceRequest,
+    OptionPriceResponse,
 )
 from core.black_scholes import european_call_price, european_put_price, get_all_greeks
 from data_fetcher.live_data import (
-    get_current_price_and_change,
-    calculate_historical_volatility_annualized,
     DEFAULT_DAYS_WINDOW_FOR_HV,
+    calculate_historical_volatility_annualized,
+    get_current_price_and_change,
 )
 
 app = FastAPI(

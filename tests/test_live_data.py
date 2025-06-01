@@ -1,12 +1,13 @@
 # tests/test_live_data.py
-import pytest
-import pandas as pd
-import numpy as np
 from unittest import mock
 
+import numpy as np
+import pandas as pd
+import pytest
+
 from data_fetcher.live_data import (
-    get_current_price_and_change,
     calculate_historical_volatility_annualized,
+    get_current_price_and_change,
 )
 
 

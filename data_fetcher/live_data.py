@@ -1,6 +1,6 @@
 # data_fetcher/live_data.py
-import yfinance as yf
 import numpy as np
+import yfinance as yf
 
 DEFAULT_DATA_PERIOD_FOR_HV = "1y"
 DEFAULT_DAYS_WINDOW_FOR_HV = 20

@@ -1,7 +1,8 @@
 # core/option_analyzer.py
 import numpy as np
+
 from .black_scholes import european_call_price, european_put_price
-from .gbm_simulator import simulate_gbm_paths, get_terminal_prices
+from .gbm_simulator import get_terminal_prices, simulate_gbm_paths
 
 
 def calculate_option_pnl_at_expiry(
