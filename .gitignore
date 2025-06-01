@@ -109,3 +109,5 @@ temp_data/
 # Cache files
 .cache/
 *.DS_Store
+
+generate_test_benchmarks.py
