@@ -1,17 +1,16 @@
-# app/api/main_api.py
 import sys
 import os
-import numpy as np  # Cần cho np.isnan
+import numpy as np
 from fastapi import FastAPI, HTTPException, Query, Path
 
-# Thêm thư mục gốc vào sys.path
+# --- BEGIN SYS.PATH MODIFICATION ---
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
-project_root_dir = os.path.dirname(
-    os.path.dirname(os.path.dirname(current_file_dir))
-)  # Đi lên 3 cấp từ app/api -> project_root
+project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_file_dir)))
 if project_root_dir not in sys.path:
     sys.path.insert(0, project_root_dir)
+# --- END SYS.PATH MODIFICATION ---
 
+# Import các Pydantic model và các hàm tính toán SAU KHI sys.path đã được sửa
 from app.api.models_api import (
     OptionPriceRequest,
     OptionPriceResponse,
@@ -23,12 +22,12 @@ from core.black_scholes import european_call_price, european_put_price, get_all_
 from data_fetcher.live_data import (
     get_current_price_and_change,
     calculate_historical_volatility_annualized,
-    DEFAULT_DAYS_WINDOW_FOR_HV,  # Sử dụng hằng số mặc định
+    DEFAULT_DAYS_WINDOW_FOR_HV,
 )
 
 app = FastAPI(
     title="Black-Scholes Option Lab API",
-    version="1.1.0",  # Tăng version
+    version="1.1.0",
     description="API để tính toán giá quyền chọn, Greeks, và lấy dữ liệu thị trường.",
 )
 
@@ -47,12 +46,8 @@ async def api_calculate_option_price(params: OptionPriceRequest):
             price = european_put_price(
                 params.S, params.K, params.T, params.r, params.sigma
             )
-
-        if np.isnan(
-            price
-        ):  # Trường hợp hàm BS trả về NaN do đầu vào không hợp lệ (hiếm khi với Pydantic)
+        if np.isnan(price):
             raise ValueError("Không thể tính giá với các tham số đầu vào.")
-
         return OptionPriceResponse(
             input_parameters=params,
             calculated_price=price,
@@ -80,10 +75,8 @@ async def api_calculate_option_greeks(params: OptionGreeksRequest):
             option_type=params.option_type,
             days_in_year=params.days_in_year_for_theta,
         )
-
         if any(np.isnan(value) for value in greeks_data.values()):
             raise ValueError("Không thể tính toán Greeks với các tham số đầu vào.")
-
         return OptionGreeksResponse(
             input_parameters=params,
             **greeks_data,
@@ -104,31 +97,22 @@ async def api_get_market_data(
     ticker_symbol: str = Path(
         ..., min_length=1, max_length=10, regex="^[A-Z0-9.-^]+$", example="AAPL"
     ),
-    hv_window: int = Query(
-        DEFAULT_DAYS_WINDOW_FOR_HV,
-        gt=10,
-        le=252,
-        description="Số ngày cho cửa sổ HV (11-252)",
-    ),
+    hv_window: int = Query(DEFAULT_DAYS_WINDOW_FOR_HV, gt=10, le=252),
 ):
     price, change, pct_change = get_current_price_and_change(ticker_symbol)
     hv = calculate_historical_volatility_annualized(
         ticker_symbol, hv_window_days=hv_window
     )
-
     if price is None and hv is None:
         raise HTTPException(
             status_code=404,
             detail=f"Không tìm thấy dữ liệu giá hoặc HV cho mã: {ticker_symbol}",
         )
-
     return MarketDataResponse(
         ticker_symbol=ticker_symbol.upper(),
         current_price=price,
         price_change=change,
         price_percent_change=pct_change,
         historical_volatility_calculated=hv,
-        hv_window_days_used=(
-            hv_window if hv is not None else None
-        ),  # Chỉ trả về window nếu HV được tính
+        hv_window_days_used=hv_window if hv is not None else None,
     )
