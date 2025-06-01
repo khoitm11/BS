@@ -30,6 +30,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Check Ruff version on CI
+        run: ruff --version
+
       - name: Lint with Ruff
         run: |
           ruff check . --output-format=github 
