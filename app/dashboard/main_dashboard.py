@@ -10,7 +10,7 @@ project_root = os.path.dirname(os.path.dirname(current_dir))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
-from core.black_scholes import (
+from core.black_scholes import (  # noqa: E402
     european_call_price,
     european_put_price,
     get_all_greeks,

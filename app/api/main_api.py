@@ -16,11 +16,11 @@ from app.api.models_api import (  # noqa: E402
     OptionPriceRequest,
     OptionPriceResponse,
 )
-from core.black_scholes import (
+from core.black_scholes import (  # noqa: E402
     european_call_price,
     european_put_price,
     get_all_greeks,
-)  # noqa: E402
+)
 from data_fetcher.live_data import (  # noqa: E402
     DEFAULT_DAYS_WINDOW_FOR_HV,
     calculate_historical_volatility_annualized,
