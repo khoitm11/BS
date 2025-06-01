@@ -1,0 +1,19 @@
+FROM python:3.12-slim-bullseye
+
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Sao chép file requirements.txt và cài đặt dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Sao chép toàn bộ code dự án vào container
+COPY . .
+
+# Port mà Streamlit sẽ chạy (mặc định 8501)
+EXPOSE 8501
+
+# Lệnh để chạy ứng dụng Streamlit
+CMD ["streamlit", "run", "app/dashboard/main_dashboard.py", "--server.port", "8501", "--server.address", "0.0.0.0", "--server.headless", "true"]

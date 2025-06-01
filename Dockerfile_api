@@ -1,0 +1,22 @@
+# Sử dụng base image Python chính thức, phiên bản slim để nhẹ hơn
+FROM python:3.12-slim-bullseye
+
+# Thiết lập biến môi trường để Python không buffer stdout và stderr
+ENV PYTHONUNBUFFERED=1
+
+# Tạo và thiết lập thư mục làm việc bên trong container
+WORKDIR /app
+
+COPY requirements.txt .
+
+# Cài đặt các thư viện Python từ requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# Port mà ứng dụng FastAPI sẽ lắng nghe bên trong container
+EXPOSE 8000
+
+# Lệnh để khởi chạy ứng dụng FastAPI bằng Uvicorn khi container bắt đầu
+CMD ["uvicorn", "app.api.main_api:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

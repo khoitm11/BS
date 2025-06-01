@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+pip-log.txt
+
+# Virtualenv
+.venv/
+venv/
+env/
+ENV/
+
+# IDE & OS specific
+.idea/
+*.iws
+.vscode/
+*.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# MLflow local data (không cần trong image)
+mlruns/
+
+# Files không cần thiết cho image chạy ứng dụng
+notebooks/
+tests/
+generate_test_benchmarks.py
+generate_greeks_benchmarks.py
+Dockerfile_api
+Dockerfile_dashboard
+README.md
