@@ -1,7 +1,7 @@
 import os
 import sys
 
-import numpy as np  #
+import numpy as np
 from fastapi import FastAPI, HTTPException, Path, Query
 
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
