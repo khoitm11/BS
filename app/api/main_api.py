@@ -4,23 +4,24 @@ import sys
 import numpy as np
 from fastapi import FastAPI, HTTPException, Path, Query
 
-# --- BEGIN SYS.PATH MODIFICATION ---
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
-project_root_dir = os.path.dirname(os.path.dirname(os.path.dirname(current_file_dir)))
+project_root_dir = os.path.dirname(os.path.dirname(current_file_dir))  # Sửa ở đây
 if project_root_dir not in sys.path:
     sys.path.insert(0, project_root_dir)
-# --- END SYS.PATH MODIFICATION ---
 
-# Import các Pydantic model và các hàm tính toán SAU KHI sys.path đã được sửa
-from app.api.models_api import (
+from app.api.models_api import (  # noqa: E402
     MarketDataResponse,
     OptionGreeksRequest,
     OptionGreeksResponse,
     OptionPriceRequest,
     OptionPriceResponse,
 )
-from core.black_scholes import european_call_price, european_put_price, get_all_greeks
-from data_fetcher.live_data import (
+from core.black_scholes import (
+    european_call_price,
+    european_put_price,
+    get_all_greeks,
+)  # noqa: E402
+from data_fetcher.live_data import (  # noqa: E402
     DEFAULT_DAYS_WINDOW_FOR_HV,
     calculate_historical_volatility_annualized,
     get_current_price_and_change,
@@ -43,7 +44,7 @@ async def api_calculate_option_price(params: OptionPriceRequest):
             price = european_call_price(
                 params.S, params.K, params.T, params.r, params.sigma
             )
-        else:  # put
+        else:
             price = european_put_price(
                 params.S, params.K, params.T, params.r, params.sigma
             )

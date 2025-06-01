@@ -5,16 +5,17 @@ import time
 import pandas as pd
 import streamlit as st
 
-# --- BEGIN SYS.PATH MODIFICATION ---
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(os.path.dirname(current_dir))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
-# --- END SYS.PATH MODIFICATION ---
 
-# Import các module tùy chỉnh SAU KHI sys.path đã được sửa
-from core.black_scholes import european_call_price, european_put_price, get_all_greeks
-from data_fetcher.live_data import (
+from core.black_scholes import (
+    european_call_price,
+    european_put_price,
+    get_all_greeks,
+)  # noqa: E402
+from data_fetcher.live_data import (  # noqa: E402
     DEFAULT_DAYS_WINDOW_FOR_HV,
     calculate_historical_volatility_annualized,
     get_current_price_and_change,
@@ -28,13 +29,13 @@ SESSION_DEFAULTS = {
     "price_change": None,
     "price_pct_change": None,
     "hv20_market": 0.20,
-    "last_fetch_timestamp": 0,  # Không cần hv60 riêng nếu chỉ dùng hv20
+    "last_fetch_timestamp": 0,
     "S_input_val": 150.0,
     "sigma_input_val": 0.20,
     "K_input_val": 150.0,
     "T_days_input_val": 30,
     "r_percent_input_val": 5.0,
-    "days_theta_val": 365,  # Thêm default cho selectbox
+    "days_theta_val": 365,
 }
 for key, value in SESSION_DEFAULTS.items():
     if key not in st.session_state:
